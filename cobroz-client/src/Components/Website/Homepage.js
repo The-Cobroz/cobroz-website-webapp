@@ -24,10 +24,10 @@ const Homepage = () => {
                             <p>
                                 Cobroz as a platform aims to simplify the process of navigating legal landscape.
                             </p>
-                            <button className='btn btn-outline-light' onClick={() => {window.location.href = "/signin"}}>Sign In</button>
+                            <button className='btn btn-outline-light' onClick={() => {window.location.href = "/auth/signin"}}>Sign In</button>
                         </div>
                         <div className='col-md-7 cobrozText'>
-                            <img src={legalGraphic}/>
+                            <img src={legalGraphic} alt='LegalGraphic'/>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ const Homepage = () => {
                         <circle cx="12" cy="12" r="1" />
                     </svg>
                     <h6><strong>Choosing becomes Easier</strong></h6>
-                    <p>Choosing lawyer becomes easier you get to see the solution they are offering</p>
+                    <p>Choosing lawyer becomes easier as you get to see the solution they are offering</p>
                 </div>
                 <diV class='col-md-4 feature-card'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none"

@@ -1,3 +1,86 @@
 .authPage{
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #070F2B;
+    color: white;
+}
+
+.formArea{
+    margin: 3% 0;
+}
+
+.loginForm{
+    padding: 5% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4% 0;
+    position: relative;
+}
+
+.loginForm input{
+    margin-bottom: 2%;
+    border-radius: 20px;
+    border-width: 0;
+    padding-left: 10px;
+    background-color: #0e1940;
+    width: 50%;
+    color: white;
+    height: 40px;
+}
+
+/* .loginForm svg{
+    cursor: pointer;
+    position: absolute;
+    left: 70%;
+    margin-top: 17%;
+} */
+
+.loginForm input:focus{
+    color: white;
+    outline: none;
+    border-color: #0e1940;
+}
+
+.signForm {
+    padding: 5% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4% 0;
+}
+
+.signInput{
+    margin-bottom: 2%;
+    border-radius: 20px;
+    background-color: #0e1940;
+}
+
+.signInput input, select{
+    border-radius: 20px;
+    border-width: 0;
+    padding-left: 10px;
+    background-color: #0e1940;
+    width: 300px;
+    color: white;
+    height: 40px;
+}
+
+.signInput #password {
+    border-width: 0;
+    padding-left: 10px;
+    background-color: #0e1940;
+    width: 275px;
+    color: white;
+    height: 40px;
+}
+
+.signInput svg{
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.signInput input:focus{
+    color: white;
+    outline: none;
+    border-color: #0e1940;   
 }

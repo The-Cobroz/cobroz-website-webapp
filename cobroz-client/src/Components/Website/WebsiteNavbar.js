@@ -27,8 +27,8 @@ const WebsiteNavbar = () => {
                 </ul>
             </div>
             <div className='authButtons'>
-                <button className='btn btn-primary'>Sign In</button>
-                <button className='btn btn-primary'>Sign Up</button>
+                <button className='btn btn-primary' onClick={() => {window.location.href="/auth/signin"}}>Sign In</button>
+                <button className='btn btn-primary' onClick={() => {window.location.href="/auth/signup/user"}}>Sign Up</button>
             </div>
         </div>
     </nav>
