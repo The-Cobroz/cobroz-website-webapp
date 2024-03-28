@@ -9,6 +9,7 @@ import LoginCobroz from '../Components/Auth/LoginCobroz';
 import RegisterCobroz from '../Components/Auth/Register/RegisterCobroz';
 import LawyerRegister from '../Components/Auth/Register/LawyerRegister';
 import CobrozApp from '../Components/Webapp/CobrozApp';
+import ProfilePage from '../Components/Webapp/Profiles/ProfilePage';
 
 
 const AppRouter = () => {
@@ -24,6 +25,7 @@ const AppRouter = () => {
               <Route path='/auth/signup/user' Component={RegisterCobroz}/>
               <Route path='/auth/signup/lawyer' Component={LawyerRegister}/>
               <Route path='/app' Component={CobrozApp}/>
+              <Route path='/app/profile' Component={ProfilePage}/>
             </Routes>
           </BrowserRouter>
       </>
