@@ -1,3 +1,52 @@
-.navbar-profile-section{
-    margin-right: 100px;
+.cobroz-webapp-navbar {
+    display: flex;
+    /* Use flexbox to align items in a row */
+    justify-content: space-between;
+    /* Distribute items evenly along the main axis */
+    align-items: center;
+    /* Center items vertically */
+    padding-right: 30%;
+
+    border-bottom: 2px solid #DFDFDE;
+}
+
+.navbar-webapp-options{
+    display: flex;
+    /* Use flexbox to align items in a row */
+    justify-content: space-between;
+    /* Distribute items evenly along the main axis */
+    align-items: center;
+    /* Center items vertically */
+}
+
+.cobroz-webapp-brand{
+    max-width: 200px;
+    max-height: 300px;
+    height: 100%;
+    text-align: center;
+}
+
+.cobroz-webapp-brand img {
+    max-width: 200px;
+    max-height: 300px;
+    /* Make the logo responsive */
+    width: 38%;
+    height: auto;
+    /* Maintain aspect ratio */
+    cursor: pointer;
+}
+
+.navbar-option-icon {
+    flex: 0 0 auto;
+    /* Prevent items from growing or shrinking */
+    margin: 0 10%;
+    /* Add margin for spacing between icons */
+    cursor: pointer;
+}
+
+.navbar-option-icon svg {
+    width: 30px;
+    /* Set width for icons */
+    height: 30px;
+    /* Set height for icons */
 }
