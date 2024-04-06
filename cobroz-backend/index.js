@@ -2,9 +2,12 @@ import express from "express";
 import cors from "cors";
 import sql from "mysql";
 import pool from "./Config/db.config.js";
+import jwt from "jsonwebtoken";
+import multer from "multer";
 
 //Route imports
 import authRoute from "./Routes/AuthRoute.js";
+import profileRoute from "./Routes/ProfileRoute.js";
 
 const app = express();
 
@@ -41,12 +44,28 @@ app.use((req, res, next) => {
 //     }
 // })
 
+// multer storage
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, 'upload/')
+    },
+    filename: function(req, file, cb){
+        const userid = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+        var newFileName = file.originalname + Date.now() + "by" + userid.user_id;
+
+        cb(null, newFileName);
+    }
+})
+
+
 //Routes
 app.get("/",(req, res) => {
     res.json({message: "OK"});
 });
 
 app.use("/auth", authRoute);
+app.use("/profile", profileRoute);
 
 app.listen(5000, () => {
     console.log("server connected");

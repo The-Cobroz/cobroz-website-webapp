@@ -8,6 +8,17 @@
     padding-right: 30%;
 
     border-bottom: 2px solid #DFDFDE;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow */
+    position: fixed;
+    /* Fixed positioning */
+    top: 0;
+    /* Stick it to the top of the viewport */
+    width: 100%;
+    /* Full width */
+    z-index: 1000;
+    /* Ensure it's above other content */
 }
 
 .navbar-webapp-options{

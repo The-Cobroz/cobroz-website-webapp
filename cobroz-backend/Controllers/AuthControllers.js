@@ -43,22 +43,26 @@ export function checkPassword(userPassword, inputPassword){
 export function checkUser(username, email) {
     return new Promise((resolve, reject) => {
         if (username) {
+            console.log(username);
             pool.query("SELECT user_id, password FROM user WHERE username = ?", [username], (err, results) => {
                 if (err) {
                     reject("error");
                 }
                 if (results && results.length > 0) {
+                    console.log(results[0]);
                     resolve(results[0]);
                 } else {
                     resolve("no user");
                 }
             });
         } else if(email) {
-            pool.query("SELECT user_id FROM user WHERE email = ?", [email], (err, results) => {
+            console.log("email:" + email);
+            pool.query("SELECT user_id, password FROM user WHERE email = ?", [email], (err, results) => {
                 if (err) {
                     reject("error");
                 }
                 if (results && results.length > 0) {
+                    console.log("result: " + results[0]);
                     resolve(results[0]);
                 } else {
                     resolve("no user");

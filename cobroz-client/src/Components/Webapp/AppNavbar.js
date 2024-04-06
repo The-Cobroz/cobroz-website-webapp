@@ -5,7 +5,7 @@ import "./AppStyles.css";
 
 const AppNavbar = () => {
     return (
-        <div className='cobroz-webapp-navbar'>
+        <div className='cobroz-webapp-navbar sticky-top'>
             <div className='cobroz-webapp-brand'>
                 <img src={cobrozLogo} alt='Cobroz'  onClick={() => {window.location.href = "/app"}}/>
             </div>

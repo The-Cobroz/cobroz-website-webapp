@@ -1,15 +1,14 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import "./ProfileStyles.css";
-import profPhoto from "../../../Images/default-profile-img.jpg"
-import BrozComponent from './ProfileComps/BrozComponent.js';
-import PostComponent from './ProfileComps/PostComponent.js';
+import defProfPhoto from "../../../Images/default-profile-img.jpg";
+//import ksProfile from "../../../Images/WhatsApp Image 2024-03-20 at 18.35.16_5d44e2c9.jpg"
 
-const UserProfile = ({name, username, bio, posts, broz}) => {
+const LawyerProfile = ({name, username, bio, posts, broz}) => {
   return (
     <div className='row'>
-        <div className='col-md-3'></div>
-        <div className='col-md-6 profile-page'>
+        <div className='col-sm-3'></div>
+        <div className='col-sm-6 profile-page'>
             <div className='profile-info-card'>
                 <div className='profile-name-bar row'>
                     <div className='col-sm-9'>
@@ -21,10 +20,10 @@ const UserProfile = ({name, username, bio, posts, broz}) => {
                     </div>
                 </div>
                 <div className='row'>
-                    <div className='col-4 profile-photo'>
-                        <img src={profPhoto} alt='profile-photo'/>
+                    <div className='col-sm-4 profile-photo'>
+                        <img src={defProfPhoto} alt='profile-photo'/>
                     </div>
-                    <div className='col-8'>
+                    <div className='col-sm-8'>
                         <div className='row'>
                             <div className='col-6'>
                                 <strong>{posts}</strong>
@@ -43,19 +42,25 @@ const UserProfile = ({name, username, bio, posts, broz}) => {
                     </div>
                 </div>
             </div>
-            <div>
-                <h5>BROZ/POSTS</h5>
-                {/* <BrozComponent/>
-                <BrozComponent/>
-                <BrozComponent/> */}
-                <PostComponent/>
-                <PostComponent/>
-                <PostComponent/>
+            <div className='lawyer-info-card'>
+                <h5>Education & Court</h5>
+                <div className='row'>
+                    <div className='col-sm-6'>
+                        <h6>Education</h6>
+                        <strong>College Name</strong>
+                        <p>Year of Passing</p>
+                    </div>
+                    <div className='col-sm-6'>
+                        <h6>Court</h6>
+                        <strong>Current Court, State</strong>
+                        <p>Since year</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div className='col-md-3'></div>
+        <div className='col-sm-3'></div>
     </div>
   )
 }
 
-export default UserProfile
+export default LawyerProfile

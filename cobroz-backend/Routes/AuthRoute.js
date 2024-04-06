@@ -63,7 +63,8 @@ app.post("/login", async(req, res) => {
     
     try{
         const userValue = await checkUser(username, email);
-        //console.log(userValue);
+
+        console.log("uservalue: " + userValue);
         if(userValue == "error"){
             res.status(205).json({msg:"error connecting to server"});
         }
