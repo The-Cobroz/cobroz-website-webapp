@@ -86,3 +86,9 @@
     margin: 0 10px;
     padding: 5px;
 }
+
+.heading-info-card{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}

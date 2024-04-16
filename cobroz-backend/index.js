@@ -8,6 +8,7 @@ import multer from "multer";
 //Route imports
 import authRoute from "./Routes/AuthRoute.js";
 import profileRoute from "./Routes/ProfileRoute.js";
+import fileRoute from "./Routes/FileRoute.js";
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.get("/",(req, res) => {
 
 app.use("/auth", authRoute);
 app.use("/profile", profileRoute);
+app.use("/file", fileRoute);
 
 app.listen(5000, () => {
     console.log("server connected");

@@ -1,3 +1,4 @@
+import { experimentalSetDeliveryMetricsExportedToBigQueryEnabled } from "firebase/messaging/sw";
 import pool from "../Config/db.config.js";
 
 export function getProfile(userId){
@@ -46,6 +47,44 @@ export function editProfile(id, name, username, phone , bio) {
                 resolve(results);
             } else {
                 reject("no user");
+            }
+        });
+    });
+}
+
+
+export function addProfessionalData(id, lawyer_id, cllg, year, court, since, lawID, copAdd, degAdd){
+    return new Promise((resolve, reject) => {
+        pool.query("INSERT INTO lawyerData(verif_id, lawyer_id, cllg, pass_year, court, since_year, law_id, cop_add, deg_add) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+            [id, lawyer_id, cllg, year, court, since, lawID, copAdd, degAdd],
+            (err, results) => {
+                if(err){
+                    reject("error");
+                    console.log("Error in adding data:", err);
+                }
+                else if(results.affectedRows > 0){
+                    resolve(results);
+                }
+                else{
+                    reject("Problem occured");
+                }
+            }
+        );
+    });
+}
+
+export function checkLawId(lawID){
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT verif_id FROM lawyerData WHERE law_id = ?", [lawID], (err, results) => {
+            if(err){
+                reject("error");
+                console.log("Error connecting to database");
+            }
+            else if(results[0]){
+                resolve(results);
+            }
+            else{
+                reject("Problem");
             }
         });
     });

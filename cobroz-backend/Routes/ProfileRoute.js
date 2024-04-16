@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import uploadConfig from "../Config/multer.config.js";
 
 //CONTROLLER FUNCTIONS
-import {getProfile, editProfile} from "../Controllers/ProfileController.js";
+import {getProfile, editProfile, addProfessionalData, checkLawId} from "../Controllers/ProfileController.js";
 
 const router = express.Router();
 
@@ -88,6 +88,68 @@ router.put("/editProfile", async(req, res) => {
                 msg: "Edit successful"
             });
         }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
+
+//LAWYER PROFESSIONAL INFORMATION REST APIs
+
+router.post("/addLawData", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Methods", "POST");
+    res.setHeader("Access-Control-Allow-headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    const {cllg, year, court, since, law_id, cop_add, deg_add} = req.body;
+    const lawyer_id = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+
+    try{
+        var id = "iheiofoisdhfls";
+        const response = await addProfessionalData(id, lawyer_id,cllg,year, court, since, law_id, cop_add, deg_add);
+        if(response === "error"){
+            res.status(205).json({
+                msg: "error in adding data, try again later"
+            });
+        }   
+        else if(response === "Problem"){
+            res.status(205).json({
+                msg: "error in adding data, try again later"
+            });
+        }
+        else{
+            res.status(200).json({
+                msg : "Details added"
+            });
+        }
+    }
+    catch(error){
+        console.log("Error:",error);
+        res.status(500).json(error);
+    }
+});
+
+router.get("/checkLawId", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Methods", "GET");
+    res.setHeader("Access-Control-Allow-headers", "Content-type");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    const {lawID} = req.query;
+    try{
+
+        const response = await checkLawId(lawID);
+
+        if(response === "error" || response === "Problem"){
+            res.status(205).json({
+                msg: "error connecting"
+            });
+        }
+        else{
+            res.status(200).json(response);
+        }
+
     }
     catch(error){
         res.status(500).json(error);
