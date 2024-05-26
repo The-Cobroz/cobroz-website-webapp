@@ -77,8 +77,11 @@ app.post("/login", async(req, res) => {
             console.log(userValue);
             if(checkPassword(userValue.password, password)){
                 const loginCookieValue = jwt.sign({user_id : userValue.user_id}, process.env.LOGIN_KEY);
+                const isLawyer = userValue.lawyer;
 
                 res.cookie("loggedCobroz", loginCookieValue);
+                res.cookie("CobrozAccType", isLawyer);
+                
                 console.log("Password verified")
                 res.status(200).json({
                     message: "Welcome to Cobroz"
@@ -123,6 +126,7 @@ app.post("/register", async(req, res) => {
 
             const cookieValue = jwt.sign(userID, process.env.LOGIN_KEY);
             res.cookie("loggedCobroz", cookieValue);
+            res.cookie("CobrozAccType", lawyer);
 
             res.status(200).json({
                 msg: "user added"

@@ -4,11 +4,14 @@ import sql from "mysql";
 import pool from "./Config/db.config.js";
 import jwt from "jsonwebtoken";
 import multer from "multer";
+import http from "http";
+import { Server } from "socket.io";
 
 //Route imports
 import authRoute from "./Routes/AuthRoute.js";
 import profileRoute from "./Routes/ProfileRoute.js";
 import fileRoute from "./Routes/FileRoute.js";
+import postRoute from "./Routes/PostRoute.js";
 
 const app = express();
 
@@ -68,7 +71,20 @@ app.get("/",(req, res) => {
 app.use("/auth", authRoute);
 app.use("/profile", profileRoute);
 app.use("/file", fileRoute);
+app.use("/post", postRoute);
 
-app.listen(5000, () => {
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST", "PUT", "DELETE"]
+    }
+});
+
+io.on("connection", (socket) => {
+    console.log(`User connected ${socket.id}`);
+});
+
+server.listen(5000, () => {
     console.log("server connected");
 });

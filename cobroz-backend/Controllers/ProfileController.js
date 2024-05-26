@@ -89,3 +89,21 @@ export function checkLawId(lawID){
         });
     });
 }
+
+export function generalData(id){
+
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT name, username FROM user WHERE user_id = ?", [id], (err, results) => {
+            if(err){
+                console.log("Error in generalData function: "+ err);
+                reject("error");
+            }
+            else if(results.length > 0){
+                resolve(results);
+            }
+            else{
+                reject(new Error("No data found"));
+            }
+        });
+    });
+}

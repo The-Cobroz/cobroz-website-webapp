@@ -57,7 +57,7 @@ export function checkUser(username, email) {
             });
         } else if(email) {
             console.log("email:" + email);
-            pool.query("SELECT user_id, password FROM user WHERE email = ?", [email], (err, results) => {
+            pool.query("SELECT user_id, password, lawyer FROM user WHERE email = ?", [email], (err, results) => {
                 if (err) {
                     reject("error");
                 }

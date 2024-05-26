@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import uploadConfig from "../Config/multer.config.js";
 
 //CONTROLLER FUNCTIONS
-import {getProfile, editProfile, addProfessionalData, checkLawId} from "../Controllers/ProfileController.js";
+import {getProfile, editProfile, addProfessionalData, checkLawId, generalData} from "../Controllers/ProfileController.js";
 
 const router = express.Router();
 
@@ -150,6 +150,40 @@ router.get("/checkLawId", async(req, res) => {
             res.status(200).json(response);
         }
 
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
+
+router.get("/userGeneralData", async(req, res) => {
+    try{
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        res.setHeader("Access-Control-Allow-Methods", "GET");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        res.setHeader("Access-Control-Allow-Credentials", true);
+
+        const user_id = req.query.id;
+        console.log(user_id);
+        const loggedUser = jwt.decode(req.query.user_id, process.env.LOGIN_KEY);
+        console.log(loggedUser);
+    
+        let userGenData = {};
+        if(user_id){
+            userGenData = await generalData(user_id);
+        }
+        else{
+            userGenData = await generalData(loggedUser.user_id);
+        }
+
+        if(userGenData === "error" || userGenData === "problem"){
+            res.status(205).json({
+                msg: "error"
+            });
+        }
+        else{
+            res.status(200).json(userGenData[0]);
+        }
     }
     catch(error){
         res.status(500).json(error);

@@ -1,0 +1,205 @@
+.newPostComp{
+    padding-top: 120px;
+    padding-bottom: 20px;
+}
+
+.postDataArea{
+    padding: 0 35%;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.postUserDetails{
+    display: flex;
+}
+
+.postUserDetails select{
+    background: white;
+    color: black;
+    margin-left: 0;
+}
+
+.viewershipDetails{
+    padding-left: 5px;
+}
+
+.viewershipDetails h5{
+    margin-left: 13px;
+}
+
+.postData{
+    padding-top: 20px;
+}
+
+.postBtn{
+    margin: 5px;
+}
+
+.postData input{
+    width: 400px;
+    border-radius: 20px;
+    outline: none;
+    border-width: 0px;
+    padding: 5px;
+    padding-left: 8px;
+    background-color: #efefef;
+}
+
+.postData input, textarea, div{
+    display: block;
+    margin-top: 5px;
+}
+
+.postData textarea{
+    height: 200px;
+    width: 100%;
+    resize: none;
+    background-color: #efefef;
+}
+
+.tagBtn{
+    background-color: blueviolet;
+    color: white;
+    margin: 5px;
+}
+
+.selectedTagBtn{
+    background-color: darkmagenta;
+    color: white;
+    margin: 5px;
+}
+
+.tagBtn:hover , .selectedTagBtn:hover{
+    background-color: darkmagenta;
+    color: white;
+}
+
+.postonapp{
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.postheadingapp, .postcontentapp, .postimageapp{
+    margin: 10px 0;
+}
+
+.posttoolsapp svg{
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.postauthorapp .col-8, .col-2 svg{
+    cursor: pointer;
+}
+
+.optionsCard{
+    padding: 5px;
+    position: absolute;
+    right: 28%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.optionsCard p{
+    cursor: pointer;
+}
+
+.indipostdata{
+    background-color: #efefef;
+    padding: 20px;
+    padding-left: 5%;
+    border-radius: 18px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.commentonpost{
+    background-color: #efefef;
+    padding: 5%;
+    border-radius: 18px;
+}
+
+.commentonpost form input{
+    margin-right: 3%;
+    width: 75%;
+    padding: 5px;
+    border-radius: 20px;
+    border-width: 0px;
+}
+
+.commentsforpost{
+    background-color: #efefef;
+    padding: 15px;
+    border-radius: 18px;
+    margin: 10px 0;
+}
+
+.commentcard{
+    text-align: left;
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+}
+
+.postTags{
+    display: flex;
+}
+
+.tagonpost{
+    margin-right: 5px;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 10px;
+    height: 35px;
+    padding: 5px;
+}
+
+Link{
+    color: #000;
+}
+@media screen and (max-width: 768px){ /* Mobile size */
+    .newPostComp{
+        padding-top: 90px;
+    }
+
+    .postUserDetails{
+        justify-content: center;
+    }
+
+    .postDataArea{
+        padding: 0 20px;
+    }
+
+    .postData input{
+        width: 330px;
+    }
+
+    .postData textarea{
+        width: 100%;
+    }
+
+    .optionsCard{
+        right: 2%;
+    }
+
+    .commentonpost form{
+        text-align: left;
+    }
+    .commentonpost form input{
+        width: 90%;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px){ /* tablet/ipad size */
+    .newPostComp{
+        padding-top: 90px;
+    }
+}

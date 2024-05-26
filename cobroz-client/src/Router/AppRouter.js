@@ -10,7 +10,9 @@ import RegisterCobroz from '../Components/Auth/Register/RegisterCobroz';
 import LawyerRegister from '../Components/Auth/Register/LawyerRegister';
 import CobrozApp from '../Components/Webapp/CobrozApp';
 import ProfilePage from '../Components/Webapp/Profiles/ProfilePage';
-
+import NewPost from '../Components/Webapp/Post/NewPost';
+import IndividualPost from '../Components/Webapp/Post/IndividualPost';
+import EditPost from '../Components/Webapp/Post/EditPost';
 
 const AppRouter = () => {
     return (
@@ -26,6 +28,9 @@ const AppRouter = () => {
               <Route path='/auth/signup/lawyer' Component={LawyerRegister}/>
               <Route path='/app' Component={CobrozApp}/>
               <Route path='/app/profile' Component={ProfilePage}/>
+              <Route path='/post/new' Component={NewPost}/>
+              <Route path='/post/:id' Component={IndividualPost}/>
+              <Route path='/post/edit/:id' Component={EditPost}/>
             </Routes>
           </BrowserRouter>
       </>
