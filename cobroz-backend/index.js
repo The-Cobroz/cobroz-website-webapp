@@ -12,6 +12,7 @@ import authRoute from "./Routes/AuthRoute.js";
 import profileRoute from "./Routes/ProfileRoute.js";
 import fileRoute from "./Routes/FileRoute.js";
 import postRoute from "./Routes/PostRoute.js";
+import commentRoute from "./Routes/CommentRoute.js";
 
 const app = express();
 
@@ -72,6 +73,7 @@ app.use("/auth", authRoute);
 app.use("/profile", profileRoute);
 app.use("/file", fileRoute);
 app.use("/post", postRoute);
+app.use("/comments", commentRoute);
 
 const server = http.createServer(app);
 const io = new Server(server, {
