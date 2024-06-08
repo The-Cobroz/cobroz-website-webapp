@@ -172,6 +172,9 @@ export function viewPosts(type){
                 reject("error");
             }
             else if(results){
+                console.log("is results an array: ", Array.isArray(results));
+                console.log("Length: ", results.length);
+                console.log(results);
                 resolve(results);
             }
             else{

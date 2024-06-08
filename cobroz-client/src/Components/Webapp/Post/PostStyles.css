@@ -86,7 +86,7 @@
     margin: 10px 0;
 }
 
-.posttoolsapp svg{
+.posttoolsapp, .commenttools svg{
     margin-right: 20px;
     cursor: pointer;
 }
@@ -164,6 +164,11 @@
 Link{
     color: #000;
 }
+
+.reply-card{
+    margin: 5%;
+}
+
 @media screen and (max-width: 768px){ /* Mobile size */
     .newPostComp{
         padding-top: 90px;

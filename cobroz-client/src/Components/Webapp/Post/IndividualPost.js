@@ -16,6 +16,7 @@ const IndividualPost = () => {
     const [tags, setTags] = useState([]);
     const [comments, setComments] = useState([]);
     const [liked, setLiked] = useState(false);
+    const [comment, setComment] = useState("");
 
     const handleLike = () => {
         setLiked(prevLiked => !prevLiked);
@@ -62,7 +63,16 @@ const IndividualPost = () => {
                     })
         }
         async function fetchComments(){
-
+            let api_url= `http://localhost:5000/comments/allComms/${id}`;
+            //console.log(api_url);
+            await axios
+                    .get(api_url, {withCredentials: true})
+                    .then(response => {
+                        setComments(response.data);
+                    })
+                    .catch(error => {
+                        alert("No comments");
+                    });
         }
 
         if(!postData){
@@ -70,10 +80,12 @@ const IndividualPost = () => {
         }
         if(postData){
             fetchtags();
+            fetchComments();
         }
 
         console.log(postData);
         console.log(tags);
+        console.log(comments);
     },[id, postData]);
 
     const dispTags = () => {
@@ -99,8 +111,44 @@ const IndividualPost = () => {
         )
     }
 
-    const printcomments = () => {
+    async function fetchComments(){
+        try{
+            await axios
+                    .get(`http://localhost:5000/comments/allComms/${id}`)
+                    .then(response => {
+                        setComments(response.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+        }
+        catch(error){
+            alert("Connection issues, check please");
+        }
+    }
 
+    const handleNewComment = async(e) => {
+        e.preventDefault();
+
+        try{
+            await axios
+                    .post("http://localhost:5000/comments/newComment", {
+                        post_id: id,
+                        comment_value: comment
+                    }, {withCredentials: true})
+                    .then(response => {
+                        if(response.status === 200){
+                            fetchComments();
+                        }
+                    })
+                    .catch(error => {
+                        alert("Unable to add comment");
+
+                    })
+        }
+        catch(error){
+            alert("Connectivity Issues, Please check!");
+        }
     }
 
     if(!postData){
@@ -142,16 +190,19 @@ const IndividualPost = () => {
                         </div>
                     </div>
                     <div className='commentonpost'>
-                        <form>
+                        <form onSubmit={handleNewComment}>
                             <input
+                                name='comment'
+                                value={comment}
                                 type='text'
+                                onChange={(e) => {setComment(e.target.value)}}
                                 placeholder='Add Your Comment'
                             />
-                            <button className='btn btn-primary'>Add Comment</button>
+                            <button className='btn btn-primary' type='submit'>Add Comment</button>
                         </form>
                     </div>
                     <div className='commentsforpost'>
-                        {comments.length > 0 ? printcomments() : <p>No Comments added</p>}
+                        {comments.length > 0 ? comments.map((comment, index) => <CommentCard key={index} data={comment}/>) : <p>No Comments added</p>}
                     </div>
                 </div>
                 <div className='col-sm-3'></div>

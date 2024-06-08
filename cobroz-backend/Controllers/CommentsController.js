@@ -18,9 +18,18 @@ export function addComment(comment_id, post_id, user_id, value){
     });
 }
 
-export function addReply(reply_id, post_id, comment_id, reply_by, comment_value){
+export function addReply(reply_id, post_id, comment_id, reply_by, comment_value, parent_id){
+    let sqlQuery = "";
+
+    if(parent_id){
+        sqlQuery = `INSERT INTO replies(reply_id, post_id, comment_id, parent_replyid, reply_value, reply_by) VALUES("${reply_id}", "${post_id}", "${comment_id}", "${parent_id}", "${comment_value}", "${reply_by}")`;
+    }
+    else{
+         sqlQuery = `INSERT INTO replies(reply_id, post_id, comment_id, reply_value, reply_by) VALUES("${reply_id}", "${post_id}", "${comment_id}", "${comment_value}", "${reply_by}")`;
+    }
+
     return new Promise((resolve, reject) => {
-        pool.query("INSERT INTO replies(reply_id, post_id, comment_id, reply_by, reply_value) VALUES(?, ?, ?, ?, ?)", [reply_id,post_id,comment_id,reply_by,comment_value], (err, results) => {
+        pool.query(sqlQuery, (err, results) => {
             if(err){
                 console.log("Error in add reply function: ", err);
                 reject("error");
@@ -100,7 +109,7 @@ export function getComments(post_id){
 }
 
 export function getReplies(post_id, comment_id){
-    let sqlQuery = `SELECT replies.reply_id, replies.reply_value, replies.created_at, user.name, user.username, user.user_id FROM replies INNER JOIN user ON user.user_id = replies.reply_by WHERE replies.post_id = "${post_id}" AND replies.comment_id = "${comment_id}"`;
+    let sqlQuery = `SELECT A.reply_id, A.post_id, A.comment_id, A.reply_value, A.replyAt, userA.name, userA.username AS author_username, userB.username AS parent_author FROM replies A LEFT JOIN replies B ON A.parent_replyid = B.reply_id INNER JOIN user userA ON userA.user_id = A.reply_by LEFT JOIN user userB ON userB.user_id = B.reply_by WHERE A.post_id = "${post_id}" AND A.comment_id = "${comment_id}"`;
 
 
     return new Promise((resolve, reject) => {

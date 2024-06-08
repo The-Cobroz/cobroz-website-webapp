@@ -115,7 +115,7 @@ router.get("/getPosts/:type", async(req, res) => {
     try{
         const posts = await viewPosts(type);
 
-        if(posts[0]){
+        if(posts){
             res.status(200).json(posts);
         }
         else{

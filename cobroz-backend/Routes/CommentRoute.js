@@ -68,7 +68,7 @@ router.post("/newReply", async(req, res) => {
 
     const postedBy = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY); //replier's id
 
-    const {post_id, reply_value, comment_id} = req.body; //reply data
+    const {post_id, reply_value, comment_id, parent_id} = req.body; //reply data
 
     try{
         let commId = createCommentId("CR"); //abbreviation for Cobroz-Comment-Reply
@@ -82,7 +82,7 @@ router.post("/newReply", async(req, res) => {
             }
         }//unique primary key generated for this reply
 
-        const reply = await addReply(commId,post_id,comment_id,postedBy.user_id, reply_value);
+        const reply = await addReply(commId,post_id,comment_id,postedBy.user_id, reply_value, parent_id);
         if(reply){
             res.status(200).json({
                 msg: "Reply added"
@@ -101,13 +101,13 @@ router.post("/newReply", async(req, res) => {
     }
 });
 
-router.get("/allComms", async(req, res) => {
+router.get("/allComms/:id", async(req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.setHeader("Access-Control-Allow-Methods", "GET");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     res.setHeader("Access-Control-Allow-Credentials", true);
 
-    const {post_id} = req.body;
+    const post_id = req.params.id;
 
     try{
         const comments = await getComments(post_id);
@@ -127,16 +127,16 @@ router.get("/allComms", async(req, res) => {
     }
 });
 
-router.get("/allReps", async(req, res) => {
+router.get("/allReps/:postid/:commid", async(req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
     res.setHeader("Access-Control-Allow-Methods", "GET");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     res.setHeader("Access-Control-Allow-Credentials", true);
 
-    const {post_id, comment_id} = req.body;
+    const {postid, commid} = req.params;
 
     try{
-        const replies = await getReplies(post_id, comment_id);
+        const replies = await getReplies(postid, commid);
 
         if(replies){
             res.status(200).json(replies);
