@@ -6,7 +6,7 @@ import cors from "cors";
 
 //Controller functions
 
-import { createCommentId, addComment, addReply, checkId, getComments, getReplies, checkIdRep } from "../Controllers/CommentsController.js";
+import { createCommentId, addComment, addReply, checkId, getComments, getReplies, checkIdRep, editComm, editReply } from "../Controllers/CommentsController.js";
 
 const router = express.Router();
 
@@ -153,6 +153,76 @@ router.get("/allReps/:postid/:commid", async(req, res) => {
     }
 });
 
-router.put("/")
+router.put("/edit/comment/:commId", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Methods", "PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    const comm_id = req.params.commId;
+    const {newComm, commAuthor} = req.body;
+    const userid = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+
+    try{
+        if(commAuthor !== userid.user_id){
+            res.status(401).json({
+                msg: "Not authorized"
+            });
+        }
+        else{
+            const commUpdate = await editComm(comm_id, newComm);
+
+            if(commUpdate){
+                res.status(200).json({
+                    msg: "edit successful"
+                });
+            }
+            else{
+                res.status(203).json({
+                    msg: "No edit"
+                });
+            }
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
+
+router.put("/edit/reply/:repId", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Methods", "PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    const rep_id = req.params.repId;
+    const {newRep, repAuthor} = req.body;
+    const userid = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+
+    try{
+        if(repAuthor !== userid.user_id){
+            res.status(401).json({
+                msg: "Not authorized"
+            });
+        }
+        else{
+            const repUpdate = await editReply(rep_id, newRep);
+
+            if(repUpdate){
+                res.status(200).json({
+                    msg: "edit successful"
+                });
+            }
+            else{
+                res.status(203).json({
+                    msg: "No edit"
+                });
+            }
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
 
 export default router;
