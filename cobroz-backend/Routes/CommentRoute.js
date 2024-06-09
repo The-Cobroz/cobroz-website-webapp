@@ -153,4 +153,6 @@ router.get("/allReps/:postid/:commid", async(req, res) => {
     }
 });
 
+router.put("/")
+
 export default router;

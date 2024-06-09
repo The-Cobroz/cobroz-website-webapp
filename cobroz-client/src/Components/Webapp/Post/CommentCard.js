@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./PostStyles.css";
 import axios from 'axios';
 import ReplyCard from './ReplyCard.js';
+import profile from "../../../Images/default-profile-img.jpg"
 import { useParams } from 'react-router-dom';
 
 const CommentCard = ({data}) => {
@@ -12,6 +13,7 @@ const CommentCard = ({data}) => {
     const [addReply, setAddReply] = useState(false);
     const [reply, setReply] = useState("");
     const [replies, setReplies] = useState([]);
+    const [moreReplies, setMoreReplies] = useState(false);
 
     async function fetchReplies(){
         try{
@@ -20,6 +22,9 @@ const CommentCard = ({data}) => {
                     .then(response => {
                         setReplies(response.data);
                         console.log(replies);
+                    })
+                    .catch(error => {
+                        return "";  
                     })
 
         }
@@ -30,11 +35,19 @@ const CommentCard = ({data}) => {
 
     function showReply(){
         setAddReply(prevAddReply => !prevAddReply);
-        //console.log(addReply);
-        if(addReply){
+    }
+
+    function yesMoreMessage(isMore){
+        setMoreReplies(isMore);
+
+        if(isMore){
             fetchReplies();
         }
     }
+
+    useEffect(() => {
+        fetchReplies();
+    }, [])
 
     const handleReply = async(e) => {
         e.preventDefault();
@@ -62,13 +75,13 @@ const CommentCard = ({data}) => {
         <div className='commentcard'>
             <div className='row'>
                 <div className='col-1'>
-                    <img src='' alt={data.name}/>
+                    <img src={profile} alt={data.name} className='profilePhotoComm'/>
                 </div>
-                <div className='col-9'>
+                <div className='col-10'>
                     <p>{data.name}</p>
-                    <p>{data.username}</p>
+                    <p>@{data.username}</p>
                 </div>
-                <div className='col-2'>
+                <div className='col-1'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
                 </div>
             </div>
@@ -94,7 +107,7 @@ const CommentCard = ({data}) => {
                         </form>
                     </div>
                     <div>
-                        {replies.length > 0 ? replies.map((rep, index) => <ReplyCard key={index} data={rep}/>) :""}
+                        {replies.length > 0 ? replies.map((rep, index) => <ReplyCard key={index} data={rep} changeReply={yesMoreMessage}/>) :""}
                     </div>
                 </>
             :""}

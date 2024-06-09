@@ -112,8 +112,10 @@ router.get("/getPosts/:type", async(req, res) => {
     const type = req.params.type;
     console.log("account type: ", type);
 
+    const id = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+
     try{
-        const posts = await viewPosts(type);
+        const posts = await viewPosts(type, id.user_id);
 
         if(posts){
             res.status(200).json(posts);

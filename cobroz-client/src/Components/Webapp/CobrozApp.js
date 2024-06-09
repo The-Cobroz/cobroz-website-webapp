@@ -5,6 +5,7 @@ import "./AppStyles.css";
 import { getCookieVal } from '../../UtilFunctions/getCookie';
 import PostOnApp from './Post/PostOnApp';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import profile from "../../Images/default-profile-img.jpg"
 
 const CobrozApp = () => {
   const newpost = () => {
@@ -52,7 +53,7 @@ const CobrozApp = () => {
           <section id='addNewPost'>
             <div className='row newposthomepage'>
               <div className='col-2'>
-                <img alt='You' src=''/>
+                <img alt='You' src={profile} className='profilePhotoHome'/>
               </div>
               <div className='col-10' onClick={newpost}>
                 Want to say same something....

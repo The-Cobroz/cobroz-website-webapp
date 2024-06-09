@@ -5,6 +5,7 @@ import "./PostStyles.css";
 import AppNavbar from '../AppNavbar';
 import CommentCard from './CommentCard';
 import axios from 'axios';
+import profile from "../../../Images/default-profile-img.jpg";
 
 const IndividualPost = () => {
 
@@ -166,11 +167,11 @@ const IndividualPost = () => {
                     <div className='indipostdata'>
                         <div className='row postauthorapp'>
                             <div className='col-2'>
-                                <img src='' alt='author'/>
+                                <img src={profile} alt='author'className='profilePhoto'/>
                             </div>
                             <div className='col-8'>
                                 <h6>{postData.name}</h6>
-                                <p>{postData.username}</p>
+                                <p>@{postData.username}</p>
                             </div>
                             <div className='col-2'>
                                 <div onClick={options}>

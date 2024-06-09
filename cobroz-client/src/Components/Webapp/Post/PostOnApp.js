@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.css";
 import "./PostStyles.css";
+import profile from "../../../Images/default-profile-img.jpg"
 
 const PostOnApp = ({data}) => {
 
@@ -30,11 +31,11 @@ const PostOnApp = ({data}) => {
         <div className='postonapp'>
             <div className='row postauthorapp'>
                 <div className='col-2'>
-                    <img src='' alt={data.name}/>
+                    <img src={profile} alt={data.name} className='profilePhoto'/>
                 </div>
                 <div className='col-8'>
                     <h6>{data.type === "N" ? data.name : "Anonymous"}</h6>
-                    <p>{data.type === "N" ? data.username : ""}</p>
+                    <p>{data.type === "N" ? "@"+data.username : ""}</p>
                 </div>
                 <div className='col-2' onClick={options}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>

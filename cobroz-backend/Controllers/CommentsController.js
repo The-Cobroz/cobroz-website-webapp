@@ -127,3 +127,37 @@ export function getReplies(post_id, comment_id){
         });
     });
 }
+
+export function editComm(comm_id, comm_value){
+    return new Promise((resolve, reject) => {
+        pool.query("UPDATE comments SET comment_value = ? WHERE comment_id = ?", [comm_value, comm_id], (err, results) => {
+            if(err){
+                console.log("Error in update comment function:", err);
+                reject("error");
+            }
+            else if(results.affectedRows > 0){
+                resolve(results);
+            }
+            else{
+                reject("problem in comm update function");
+            }
+        });
+    });
+}
+
+export function editReply(reply_id, reply_value){
+    return new Promise((resolve, reject) => {
+        pool.query("UPDATE replies SET reply_value = ? WHERE reply_id = ?", [reply_value, reply_id], (err, results) => {
+            if(err){
+                console.log("Error in update replies function:", err);
+                reject("error");
+            }
+            else if(results.affectedRows > 0){
+                resolve(results);
+            }
+            else{
+                reject("problem in reply update function");
+            }
+        });
+    });
+}

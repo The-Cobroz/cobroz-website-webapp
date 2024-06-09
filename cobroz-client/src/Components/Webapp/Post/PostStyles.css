@@ -169,6 +169,20 @@ Link{
     margin: 5%;
 }
 
+.profilePhoto{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profilePhotoComm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 @media screen and (max-width: 768px){ /* Mobile size */
     .newPostComp{
         padding-top: 90px;
@@ -200,6 +214,20 @@ Link{
     .commentonpost form input{
         width: 90%;
         margin-bottom: 10px;
+    }
+
+    .profilePhoto {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profilePhotoComm {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 }
 

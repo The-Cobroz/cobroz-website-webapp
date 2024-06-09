@@ -157,12 +157,15 @@ export function viewPost(post_id){
     });
 }
 
-export function viewPosts(type){
+export function viewPosts(type, id){
 
     let sqlQuery = "SELECT post.*, user.username, user.name, user.profile FROM post INNER JOIN user ON user.user_id = post.posted_by";
 
     if(type === "client"){
-        sqlQuery += ' WHERE post.viewers = "all"';
+        sqlQuery += ` WHERE post.viewers = "all" OR post.posted_by = "${id}"`;
+    }
+    else{
+        sqlQuery += ' post.viewers = "law"';
     }
 
     return new Promise((resolve, reject) => {
