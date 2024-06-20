@@ -16,5 +16,7 @@ This project uses following tech stack:
 
 
 You can view a glimpse of this project here: 
+
 Posting a post on the platform: https://drive.google.com/file/d/1Wfu93oErobMBAW1lar-cf8Sp9NDO2q6u/view?usp=sharing
+
 Adding Comments and replies, viewing other broz profiles: https://drive.google.com/file/d/1NCR64uep1qWf9WNcHRqFYzjWzFSMaJeV/view?usp=sharing 
