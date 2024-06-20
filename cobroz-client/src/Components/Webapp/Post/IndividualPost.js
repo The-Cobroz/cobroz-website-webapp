@@ -60,7 +60,8 @@ const IndividualPost = () => {
                         setTags(response.data);
                     })
                     .catch(error => {
-                        alert("Tags not found");
+                        console.log(error);
+                        //alert("Tags not found");
                     })
         }
         async function fetchComments(){
@@ -72,7 +73,8 @@ const IndividualPost = () => {
                         setComments(response.data);
                     })
                     .catch(error => {
-                        alert("No comments");
+                        console.log(error);
+                        //alert("No comments");
                     });
         }
 
@@ -169,7 +171,7 @@ const IndividualPost = () => {
                             <div className='col-2'>
                                 <img src={profile} alt='author'className='profilePhoto'/>
                             </div>
-                            <div className='col-8'>
+                            <div className='col-8' onClick={() => {window.location.href = `/${postData.username}`}}>
                                 <h6>{postData.name}</h6>
                                 <p>@{postData.username}</p>
                             </div>
@@ -197,7 +199,7 @@ const IndividualPost = () => {
                                 value={comment}
                                 type='text'
                                 onChange={(e) => {setComment(e.target.value)}}
-                                placeholder='Add Your Comment'
+                                placeholder='Add Your Comment (limit 255 Characters)'
                             />
                             <button className='btn btn-primary' type='submit'>Add Comment</button>
                         </form>

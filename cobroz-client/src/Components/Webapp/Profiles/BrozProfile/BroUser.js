@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
-import "./ProfileStyles.css";
-import profPhoto from "../../../Images/default-profile-img.jpg";
-import PostComponent from './ProfileComps/PostComponent.js';
+import "../ProfileStyles.css";
+import profPhoto from "../../../../Images/default-profile-img.jpg";
+import PostComponent from '../ProfileComps/PostComponent.js';
 import axios from 'axios';
 
-const UserProfile = ({ name, username, bio}) => {
+const BroUser = ({data}) => {
 
-    const [broOption, setBroOption] = useState(false);
     const [userPosts, setUserPosts] = useState([]);
 
     useEffect(() => {
         async function getPosts() {
             try {
-                await axios
-                    .get("http://localhost:5000/post/getPostsbyUser", { withCredentials: true })
-                    .then(response => {
-                        if (response.status === 200) {
-                            setUserPosts(response.data);
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        alert("Error fetching data for posts");
-                    })
+                const response = await axios.get(`http://localhost:5000/post/broPosts/${data.username}`, { withCredentials: true });
+                if (response.status === 200) {
+                    setUserPosts(response.data);
+                }
             }
             catch (error) {
                 alert("Connection Issues, Please Check");
@@ -37,8 +29,8 @@ const UserProfile = ({ name, username, bio}) => {
     const profilePosts = () => {
         if (userPosts.length === 0) {
             return (
-                <div onClick={() => { window.location.href = "/post/new" }}>
-                    <h6>You haven't posted anything, Click to add your first post</h6>
+                <div>
+                    <h6>No post added yet.</h6>
                 </div>
             );
         } else {
@@ -49,11 +41,6 @@ const UserProfile = ({ name, username, bio}) => {
             });
         }
     }
-
-    const handleEditProfile = () => {
-        localStorage.setItem("userLocalData", JSON.stringify({ name, username, bio }));
-        window.location.href = "/profile/edit";
-    }
     
     return (
         <div className='row'>
@@ -62,12 +49,8 @@ const UserProfile = ({ name, username, bio}) => {
                 <div className='profile-info-card'>
                     <div className='profile-name-bar row'>
                         <div className='col-sm-9'>
-                            <strong>{name}</strong>
-                            <p>{username}</p>
-                        </div>
-                        <div className='col-sm-3'>
-                            <button className='btn btn-secondary' onClick={handleEditProfile}
-                            >Edit Profile</button>
+                            <strong>{data.name}</strong>
+                            <p>{data.username}</p>
                         </div>
                     </div>
                     <div className='row'>
@@ -85,7 +68,7 @@ const UserProfile = ({ name, username, bio}) => {
                     </div>
                     <div className='row'>
                         <div>
-                            {bio}
+                            {data.bio}
                         </div>
                     </div>
                 </div>
@@ -99,4 +82,4 @@ const UserProfile = ({ name, username, bio}) => {
     )
 }
 
-export default UserProfile;
+export default BroUser;

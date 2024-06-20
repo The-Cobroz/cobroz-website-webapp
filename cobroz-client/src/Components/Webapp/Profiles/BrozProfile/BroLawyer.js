@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
-import "./ProfileStyles.css";
-import defProfPhoto from "../../../Images/default-profile-img.jpg";
+import "../ProfileStyles.css";
+import defProfPhoto from "../../../../Images/default-profile-img.jpg";
 import axios from "axios";
-import PostComponent from './ProfileComps/PostComponent.js';
-import MiscDetails from './EditComponents/MiscDetails.js';
+import PostComponent from '../ProfileComps/PostComponent.js';
+//import MiscDetails from './EditComponents/MiscDetails.js';
 
-const LawyerProfile = ({ name, username, bio }) => {
+const BroLawyer = ({data}) => {
     const [profData, setProfData] = useState({
         profInfo: false,
         cllg: "",
@@ -28,20 +28,20 @@ const LawyerProfile = ({ name, username, bio }) => {
                     since: response.data.since
                 });
             } catch (error) {
-                alert("Error fetching professional data");
+                //alert("Error fetching professional data");
                 console.log("Error: ", error);
             }
         };
 
         const getPosts = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/post/getPostsbyUser", { withCredentials: true });
+                const response = await axios.get(`http://localhost:5000/post/broPosts/${data.username}`, { withCredentials: true });
                 if (response.status === 200) {
                     setPosts(response.data);
                 }
             } catch (error) {
                 console.log(error);
-                alert("Error fetching posts");
+                //alert("Error fetching posts");
             }
         };
 
@@ -65,18 +65,14 @@ const LawyerProfile = ({ name, username, bio }) => {
                     </div>
                 </>
             );
-        } else {
-            return (
-                <p>Add this information to improve your profile</p>
-            );
         }
     };
 
     const profilePosts = () => {
         if (posts.length === 0) {
             return (
-                <div onClick={() => { window.location.href = "/post/new" }}>
-                    <h6>No posts are added, click to add first post</h6>
+                <div>
+                    <h6>No posts added yet.</h6>
                 </div>
             )
         } else {
@@ -86,9 +82,18 @@ const LawyerProfile = ({ name, username, bio }) => {
         }
     };
 
-    const handleEditProfile = () => {
-        localStorage.setItem("userLocalData", JSON.stringify({ name, username, bio }));
-        window.location.href = "/profile/edit";
+    function eduAndCrtDetails(){
+        return (
+            <div className='lawyer-info-card'>
+                <div className="heading-info-card">
+                    <h5>Education & Court</h5>
+                    <button className='btn btn-secondary'>Add Details</button>
+                </div>
+                <div className='row'>
+                    {lawyerInfoCard()}
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -98,11 +103,8 @@ const LawyerProfile = ({ name, username, bio }) => {
                 <div className='profile-info-card'>
                     <div className='profile-name-bar row'>
                         <div className='col-sm-9'>
-                            <strong>{name}</strong>
-                            <p>{username}</p>
-                        </div>
-                        <div className='col-sm-3'>
-                            <button className='btn btn-secondary' onClick={handleEditProfile}>Edit Profile</button>
+                            <strong>{data.name}</strong>
+                            <p>{data.username}</p>
                         </div>
                     </div>
                     <div className='row'>
@@ -120,19 +122,11 @@ const LawyerProfile = ({ name, username, bio }) => {
                     </div>
                     <div className='row'>
                         <div>
-                            {bio}
+                            {data.bio}
                         </div>
                     </div>
                 </div>
-                <div className='lawyer-info-card'>
-                    <div className="heading-info-card">
-                        <h5>Education & Court</h5>
-                        <button className='btn btn-secondary' onClick={() => {window.location.href = "/profile/add_Lawyer_Info"}}>Add Details</button>
-                    </div>
-                    <div className='row'>
-                        {lawyerInfoCard()}
-                    </div>
-                </div>
+                {profData.profInfo ? eduAndCrtDetails() : ""}
                 <div className='postCompProfile'>
                     <h5>POSTS</h5>
                     {profilePosts()}
@@ -143,4 +137,4 @@ const LawyerProfile = ({ name, username, bio }) => {
     );
 };
 
-export default LawyerProfile;
+export default BroLawyer;

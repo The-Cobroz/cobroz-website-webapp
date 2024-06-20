@@ -161,3 +161,31 @@ export function editReply(reply_id, reply_value){
         });
     });
 }
+
+export function delCommByUser(id){
+    return new Promise((resolve, reject) => {
+        pool.query("DELETE FROM comments WHERE commentby = ?", [id], (err, results) => {
+            if(err){
+                console.log("Error in deleting comments by user:", err);
+                reject("error");
+            }
+            else if(results.affectedRows >= 0){
+                resolve(results);
+            }
+        });
+    });
+}
+
+export function delRepsByUser(id){
+    return new Promise((resolve, reject) => {
+        pool.query("DELETE FROM replies WHERE reply_by = ?", [id], (err, results) => {
+            if(err){
+                console.log("Error in deleting replies by user:", err);
+                reject("error");
+            }
+            else if(results.affectedRows >= 0){
+                resolve(results);
+            }
+        });
+    });
+}

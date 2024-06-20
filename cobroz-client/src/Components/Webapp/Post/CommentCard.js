@@ -77,7 +77,7 @@ const CommentCard = ({data}) => {
                 <div className='col-1'>
                     <img src={profile} alt={data.name} className='profilePhotoComm'/>
                 </div>
-                <div className='col-10'>
+                <div className='col-10' onClick={() => {window.location.href = `/${data.username}`}}>
                     <p>{data.name}</p>
                     <p>@{data.username}</p>
                 </div>
@@ -100,7 +100,7 @@ const CommentCard = ({data}) => {
                                 name='reply'
                                 value={reply}
                                 type='text'
-                                placeholder='Your Reply'
+                                placeholder='Your Reply (Limit 255 Characters)'
                                 onChange={(e) => {setReply(e.target.value)}}
                             />
                             <button className='btn btn-primary' onClick = {handleReply}>Send</button>

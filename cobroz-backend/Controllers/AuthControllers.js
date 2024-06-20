@@ -44,7 +44,7 @@ export function checkUser(username, email) {
     return new Promise((resolve, reject) => {
         if (username) {
             console.log(username);
-            pool.query("SELECT user_id, password FROM user WHERE username = ?", [username], (err, results) => {
+            pool.query("SELECT user_id, password, lawyer FROM user WHERE username = ?", [username], (err, results) => {
                 if (err) {
                     reject("error");
                 }
@@ -103,6 +103,21 @@ export function checkUsername(username){
             }
         });
     });
+}
+
+export function getUserPassword(id){
+    return new Promise((resolve, reject) => {
+        pool.query("SELECT password FROM user WHERE user_id = ?", [id], (err, results) => {
+            if(err){
+                console.log(err);
+                reject("error");
+            }
+            else{
+                console.log(results);
+                resolve(results[0]);
+            }
+        })
+    })
 }
 
 export function generateUserId(prefix, max){
@@ -169,3 +184,17 @@ export function sendEmailtoUser(to, subject){
     });
 
 };
+
+export function deleteUser(id){
+    return new Promise((resolve, reject) => {
+        pool.query("DELETE FROM user WHERE user_id = ?", [id], (err, results) => {
+            if(err){
+                console.log("Error in deleting user:", err);
+                reject("error");
+            }
+            else if(results.affectedRows === 1){
+                resolve(results);
+            }
+        });
+    });
+}

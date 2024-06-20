@@ -4,14 +4,18 @@ import express from "express";
 import sql from "mysql";
 import crypto from "crypto";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import MySQLStore from "express-mysql-session";
 import pool from "../Config/db.config.js";
-import { checkUser, genPassword, checkPassword, checkUsername, checkEmail, generateUserId, checkUserid, addUser, sendEmailtoUser } from "../Controllers/AuthControllers.js";
+import { checkUser, genPassword, checkPassword, checkUsername, checkEmail, generateUserId, checkUserid, addUser, sendEmailtoUser, getUserPassword, deleteUser } from "../Controllers/AuthControllers.js";
 import { config as dotenvConfig } from "dotenv";
 import jwt from "jsonwebtoken";
 import cors from "cors";
-import { send } from "process";
+import { delIntByUser, deleteLawData } from "../Controllers/ProfileController.js";
+import { delPostsofUser } from "../Controllers/PostController.js";
+import { delCommByUser, delRepsByUser } from "../Controllers/CommentsController.js";
+
 
 dotenvConfig();
 
@@ -36,7 +40,7 @@ app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }));
-
+app.use(cookieParser());
 //PASSPORT MIDDLEWARE
 passport.serializeUser((user, done) => {
     console.log("Inside");
@@ -77,8 +81,10 @@ app.post("/login", async(req, res) => {
             console.log(userValue);
             if(checkPassword(userValue.password, password)){
                 const loginCookieValue = jwt.sign({user_id : userValue.user_id}, process.env.LOGIN_KEY);
+                console.log(userValue);
                 const isLawyer = userValue.lawyer;
-
+                
+                console.log("is lawyer:",isLawyer);
                 res.cookie("loggedCobroz", loginCookieValue);
                 res.cookie("CobrozAccType", isLawyer);
                 
@@ -194,5 +200,79 @@ app.get("/checkEmail", async(req, res) => {
     }
 });
 
+app.post("/checkPassword", async(req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', true);
+
+    const user = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+    const {password} = req.body;
+
+    try{
+        const ogPass = await getUserPassword(user.user_id);
+
+        var isUser = checkPassword(ogPass.password, password);
+        if(isUser){
+            res.status(200).json({
+                msg: "User Verified"
+            });
+        }
+        else{
+            res.status(204).json({
+                msg: "Not authorised"
+            });
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
+
+app.put("/deleteUser", async(req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Methods', 'DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', true);
+
+    const user = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+    const isLawyer = req.cookies.CobrozAccType;
+
+    try{
+        const userDel = await deleteUser(user.user_id);
+        var lawData = null;
+        if(isLawyer){
+            lawData = await deleteLawData(user.user_id);
+        }
+        const postsDel = await delPostsofUser(user.user_id);
+        const commDel = await delCommByUser(user.user_id);
+        const repDel = await delRepsByUser(user.user_id);
+        const intDel = await delIntByUser(user.user_id);
+
+        
+
+        if(isLawyer){
+            if(userDel && postsDel && lawData && commDel && repDel && intDel){
+                res.clearCookie("loggedCobroz");
+                res.clearCookie("CobrozAccType");
+                res.status(200).json({
+                    msg: "delete successful"
+                });
+            }
+        }
+        else{
+            if(userDel && postsDel && commDel && repDel && intDel){
+                res.clearCookie("loggedCobroz");
+                res.clearCookie("CobrozAccType");
+                res.status(200).json({
+                    msg: "Delete succesful"
+                });
+            }
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
 
 export default app;

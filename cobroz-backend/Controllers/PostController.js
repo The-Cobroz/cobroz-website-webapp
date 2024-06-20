@@ -260,3 +260,56 @@ export function delTags(post_id) {
         });
     });
 }
+
+export function viewPostByUser(user_id){
+
+    var sqlQuery = "SELECT post.post_id, post.type, post.heading, post.content, COUNT(interaction.interact_id) as like_count FROM post LEFT JOIN interaction ON interaction.post_id = post.post_id WHERE post.posted_by = ? GROUP BY post.post_id;";
+
+    return new Promise((resolve, reject) => {
+        pool.query(sqlQuery, [user_id], (err, results) => {
+            if(err){
+                console.log("Error getting posts for profile page: ", err);
+                reject("error");
+            }
+            else if(results){
+                resolve(results);
+            }
+            else{
+                reject("Problem in getting posts for profile page");
+            }
+        });
+    });
+}
+
+export function broPosts(username){
+    var sqlQuery = "SELECT post.post_id, post.heading, post.content, COUNT(interaction.interact_id) AS like_count FROM post LEFT JOIN interaction ON interaction.post_id = post.post_id INNER JOIN user ON post.posted_by = user.user_id WHERE post.type = 'N' AND user.username = ? GROUP BY post.post_id";
+
+    return new Promise((resolve, reject) => {
+        pool.query(sqlQuery, [username], (err, results) => {
+            if(err){
+                console.log("Error in fetching bro posts:", err);
+                reject("error");
+            }
+            else if(results){
+                resolve(results);
+            }
+            else{
+                reject("Problem in bro post function");
+            }
+        })
+    })
+}
+
+export function delPostsofUser(id){
+    return new Promise((resolve, reject) => {
+        pool.query("DELETE FROM post WHERE posted_by = ?", [id], (err, results) => {
+            if(err){
+                console.log("Error in deleting posts by user:", err);
+                reject("error");
+            }
+            else if(results.affectedRows >= 0){
+                resolve(results);
+            }
+        });
+    });
+}

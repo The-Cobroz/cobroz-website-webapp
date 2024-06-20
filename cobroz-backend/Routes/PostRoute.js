@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 
 //middleware functions
-import {checkPostId, newPost, addTag, delPost, viewPost, viewPosts, viewTags, editPost, addLike, viewTagsId, delTags} from "../Controllers/PostController.js";
+import {checkPostId, newPost, addTag, delPost, viewPost, viewPosts, viewTags, editPost, addLike, viewTagsId, delTags, viewPostByUser, broPosts} from "../Controllers/PostController.js";
 import {generateUserId} from "../Controllers/AuthControllers.js";
 
 const router = express.Router();
@@ -286,7 +286,67 @@ router.post("/addLike/:id", async(req, res) => {
     catch(error){
         res.status(500).json(error);
     }
-})
+});
+
+router.get("/getPostsbyUser", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Methods", "GET");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    const userId = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+
+    try{
+        const posts = await viewPostByUser(userId.user_id);
+
+        if(posts){
+            res.status(200).json(
+                posts
+            )
+        }
+        else{
+            res.status(204).json({
+                msg: "No posts"
+            });
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
+
+router.get("/broPosts/:username", async(req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.setHeader("Access-Control-Allow-Methods", "GET");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    const user = jwt.decode(req.cookies.loggedCobroz, process.env.LOGIN_KEY);
+    const username = req.params.username;
+
+    try{
+        if(user.user_id){
+            const posts = await broPosts(username);
+
+            if(posts){
+                res.status(200).json(posts);
+            }
+            else{
+                res.status(204).json({
+                    msg: "Error fetching posts"
+                });
+            }
+        }
+        else{
+            res.status(404).json({
+                msg: "Not Authorized"
+            });
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+});
 
 export default router;
 

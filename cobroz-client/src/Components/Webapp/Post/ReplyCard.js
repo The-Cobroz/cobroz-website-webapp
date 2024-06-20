@@ -42,7 +42,7 @@ const ReplyCard = ({data, changeReply}) => {
     return (
         <div className='reply-card'>
             <div className='row'>
-                <div className='col-11'>
+                <div className='col-11' onClick={() => {window.location.href = `/${data.author_username}`}}>
                     <h6>{data.name}</h6>
                     <p>@{data.author_username}</p>
                 </div>
@@ -50,7 +50,7 @@ const ReplyCard = ({data, changeReply}) => {
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
                 </div>
             </div>
-            <div>
+            <div onClick={() => {window.location.href = `/${data.parent_author}`}}>
                 {data.parent_author ? "@" + data.parent_author : ""} {data.reply_value}
             </div>
             <div className='commenttools'>
